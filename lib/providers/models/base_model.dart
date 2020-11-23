@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mikan_flutter/ext/logger.dart';
+import 'package:mikan_flutter/internal/logger.dart';
 
 class BaseModel extends ChangeNotifier {
   bool _disposed = false;
@@ -49,7 +49,15 @@ class CancelableBaseModel extends BaseModel {
     });
     _jobs.add(completer);
     completer.complete(future);
-    completer.operation.value.whenComplete(() {
+    completer.operation.value.then((value) {
+      if (this._disposed) {
+        logd("$runtimeType 当前model已disposed，打断施法...");
+        throw "当前model已disposed，打断施法...";
+      }
+      return value;
+    }).catchError((e) {
+      logd("$runtimeType: $e");
+    }).whenComplete(() {
       _jobs.remove(completer);
       logd("$runtimeType 执行完了一个任务...");
     });

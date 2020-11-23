@@ -4,45 +4,99 @@
 // **************************************************************************
 
 import 'package:ff_annotation_route/ff_annotation_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'ui/pages/bangumi_details_page.dart';
+import 'package:mikan_flutter/model/record_item.dart';
+import 'package:mikan_flutter/model/season_gallery.dart';
+import 'package:mikan_flutter/model/subgroup.dart';
+import 'package:mikan_flutter/model/year_season.dart';
+import 'ui/pages/bangumi_page.dart';
 import 'ui/pages/home_page.dart';
 import 'ui/pages/login_page.dart';
+import 'ui/pages/recent_subscribed_page.dart';
+import 'ui/pages/record_detail_page.dart';
+import 'ui/pages/season_list_page.dart';
 import 'ui/pages/splash_page.dart';
+import 'ui/pages/subgroup_page.dart';
+import 'ui/pages/subscribed_season_page.dart';
 
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   arguments = arguments ?? const <String, dynamic>{};
   switch (name) {
-    case '/bangumi/details':
+    case 'bangumi':
       return RouteResult(
         name: name,
-        widget: BangumiDetailsPage(
+        widget: BangumiPage(
           key: arguments['key'] as Key,
           bangumiId: arguments['bangumiId'] as String,
           cover: arguments['cover'] as String,
           heroTag: arguments['heroTag'] as String,
         ),
-        routeName: 'bangumi-details',
+        routeName: 'bangumi',
       );
-    case "/":
-    case '/home':
+    case 'home':
       return RouteResult(
         name: name,
         widget: HomePage(),
-        routeName: 'mikan-home',
+        routeName: 'home',
       );
-    case '/login':
+    case 'login':
       return RouteResult(
         name: name,
         widget: LoginPage(),
-        routeName: 'mikan-login',
+        routeName: 'login',
       );
-    case '/splash':
+    case 'recent-subscribed':
+      return RouteResult(
+        name: name,
+        widget: RecentSubscribedPage(
+          key: arguments['key'] as Key,
+          loaded: arguments['loaded'] as List<RecordItem>,
+        ),
+        routeName: 'recent-subscribed',
+      );
+    case 'record-detail':
+      return RouteResult(
+        name: name,
+        widget: RecordDetailPage(
+          key: arguments['key'] as Key,
+          url: arguments['url'] as String,
+        ),
+        routeName: 'record-detail',
+      );
+    case 'season-list':
+      return RouteResult(
+        name: name,
+        widget: SeasonListPage(
+          key: arguments['key'] as Key,
+          years: arguments['years'] as List<YearSeason>,
+        ),
+        routeName: 'season-list',
+      );
+    case 'splash':
       return RouteResult(
         name: name,
         widget: SplashPage(),
-        routeName: 'mikan-splash',
+        routeName: 'splash',
+      );
+    case 'subgroup':
+      return RouteResult(
+        name: name,
+        widget: SubgroupPage(
+          key: arguments['key'] as Key,
+          subgroup: arguments['subgroup'] as Subgroup,
+        ),
+        routeName: 'subgroup',
+      );
+    case 'subscribed-season':
+      return RouteResult(
+        name: name,
+        widget: SubscribedSeasonPage(
+          key: arguments['key'] as Key,
+          years: arguments['years'] as List<YearSeason>,
+          galleries: arguments['galleries'] as List<SeasonGallery>,
+        ),
+        routeName: 'subscribed-season',
       );
     default:
       return const RouteResult(name: 'flutterCandies://notfound');

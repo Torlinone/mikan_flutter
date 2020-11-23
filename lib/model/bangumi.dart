@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
+
 class Bangumi {
   // 番剧的id
   String id;
@@ -21,13 +23,11 @@ class Bangumi {
 
   bool grey;
 
-  Size _coverSize;
+  Location location;
 
-  Size get coverSize => _coverSize;
+  Size coverSize;
 
-  set coverSize(Size value) {
-    _coverSize = value;
-  }
+  String week;
 
   Bangumi({
     this.id,
@@ -37,5 +37,36 @@ class Bangumi {
     this.cover,
     this.subscribed,
     this.grey,
+    this.week,
+    this.location,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Bangumi &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode;
+}
+
+class Location {
+  final int srow;
+  final int row;
+
+  const Location(this.srow, this.row);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Location &&
+          runtimeType == other.runtimeType &&
+          srow == other.srow &&
+          row == other.row;
+
+  @override
+  int get hashCode => srow.hashCode ^ row.hashCode;
 }
